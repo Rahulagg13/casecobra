@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     }
 
 
-    const value = await resend.emails.send({
+     await resend.emails.send({
       from: "CaseCobra <onboarding@resend.dev>",
       to: order!.user.email,
       subject: "Thanks for your order!",
