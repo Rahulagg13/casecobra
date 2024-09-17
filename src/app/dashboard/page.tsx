@@ -17,20 +17,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
 import { formatPrice } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
 import StatusDropdown from "./StatusDropdown";
 
-interface pageProps {}
-
-const Page = async ({}: pageProps) => {
+const Page = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const WEEKLY_GOAL = 500;
   const MONTHLY_GOAL = 2500;
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL
 
-  if (!user || user.email !== process.env.ADMIN_EMAIL) {
+  if (!user || user.email !== ADMIN_EMAIL) {
     return notFound();
   }
   const orders = await db.order.findMany({
