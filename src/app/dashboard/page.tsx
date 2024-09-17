@@ -26,7 +26,8 @@ const Page = async () => {
   const user = await getUser();
   const WEEKLY_GOAL = 500;
   const MONTHLY_GOAL = 2500;
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL
+  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
 
   if (!user || user.email !== ADMIN_EMAIL) {
     return notFound();
