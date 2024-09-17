@@ -36,7 +36,7 @@ const LoginModel = ({ isOpen, setIsOpen }: LoginModelProps) => {
           </DialogTitle>
           <DialogDescription className="text-base text-center py-2">
             <span className="font-medium text-zinc-900">
-              Your configuration was saved!
+              Your configuration was saved! 
             </span>
             Please login or create an account to complete your purchase.
           </DialogDescription>
