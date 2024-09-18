@@ -13,6 +13,7 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ metadata, file }) => {
       const { configId } = metadata.input;
+
       const res = await fetch(file.url);
       const buffer = await res.arrayBuffer();
 
@@ -27,9 +28,10 @@ export const ourFileRouter = {
             width: width || 500,
           },
         });
+
         return { configId: configuration.id };
       } else {
-        const configuration = await db.configuration.update({
+        const updatedConfiguration = await db.configuration.update({
           where: {
             id: configId,
           },
@@ -37,7 +39,8 @@ export const ourFileRouter = {
             croppedImageUrl: file.url,
           },
         });
-        return { configId: configuration.id };
+
+        return { configId: updatedConfiguration.id };
       }
     }),
 } satisfies FileRouter;

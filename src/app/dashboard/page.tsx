@@ -28,7 +28,6 @@ const Page = async () => {
   const MONTHLY_GOAL = 2500;
   const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-  console.log( user);
   if (!user || user.email !== ADMIN_EMAIL) {
     return notFound();
   }

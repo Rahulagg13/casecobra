@@ -9,50 +9,56 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 
-interface pageProps {}
-
-const Page = ({}: pageProps) => {
+const Page = () => {
+  const { toast } = useToast();
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
   const router = useRouter();
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
       const configId = data.serverData.configId;
+      console.log()
       startTransition(() => {
         router.push(`/configure/design?id=${configId}`);
       });
     },
-    onUploadProgress: (p) => {
+    onUploadProgress(p) {
+      console.log(p);
       setUploadProgress(p);
     },
   });
 
-  const onDropRejected = (rejectedFile: FileRejection[]) => {
-    const [file] = rejectedFile;
+  const onDropRejected = (rejectedFiles: FileRejection[]) => {
+    const [file] = rejectedFiles;
+
     setIsDragOver(false);
+
     toast({
       title: `${file.file.type} type is not supported.`,
       description: "Please choose a PNG, JPG, or JPEG image instead.",
       variant: "destructive",
     });
   };
-  const onDropAccepted = (acceptedFile: File[]) => {
-    startUpload(acceptedFile, { configId: undefined });
+
+  const onDropAccepted = (acceptedFiles: File[]) => {
+    startUpload(acceptedFiles, { configId: undefined });
+
     setIsDragOver(false);
   };
+
+  const [isPending, startTransition] = useTransition();
+
   return (
     <div
       className={cn(
-        "relative h-full flex-1  my-16 w-full rouned-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center flex-col items-center",
+        "relative h-full flex-1 my-16 w-full rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center flex-col items-center",
         {
-          "ring-blue-900/25 bg-blue-900/10 ": isDragOver,
+          "ring-blue-900/25 bg-blue-900/10": isDragOver,
         }
       )}
     >
-      <div className="  relative flex flex-1 flex-col justify-center items-center w-full">
+      <div className="relative flex flex-1 flex-col items-center justify-center w-full">
         <Dropzone
           onDropRejected={onDropRejected}
           onDropAccepted={onDropAccepted}
@@ -63,7 +69,7 @@ const Page = ({}: pageProps) => {
           }}
           onDragEnter={() => setIsDragOver(true)}
           onDragLeave={() => setIsDragOver(false)}
-          disabled={isUploading}
+          disabled={isUploading || isPending}
         >
           {({ getRootProps, getInputProps }) => (
             <div
@@ -78,7 +84,7 @@ const Page = ({}: pageProps) => {
               ) : (
                 <Image className="h-6 w-6 text-zinc-500 mb-2" />
               )}
-              <div className="flex  flex-col justify-center text-sm text-zinc-700 mb-2">
+              <div className="flex flex-col justify-center mb-2 text-sm text-zinc-700">
                 {isUploading ? (
                   <div className="flex flex-col items-center">
                     <p>Uploading...</p>
@@ -93,7 +99,7 @@ const Page = ({}: pageProps) => {
                   </div>
                 ) : isDragOver ? (
                   <p>
-                    <span className="font-semibold">Drop File</span> to upload
+                    <span className="font-semibold">Drop file</span> to upload
                   </p>
                 ) : (
                   <p>
@@ -102,6 +108,7 @@ const Page = ({}: pageProps) => {
                   </p>
                 )}
               </div>
+
               {isPending ? null : (
                 <p className="text-xs text-zinc-500">PNG, JPG, JPEG</p>
               )}
