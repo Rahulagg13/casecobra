@@ -16,6 +16,7 @@ const ThankYou = ({}: ThankYouProps) => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
   const router = useRouter();
+
   useEffect(() => {
     const handlePopState = () => {
       router.push("/configure/upload");

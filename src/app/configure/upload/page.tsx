@@ -17,15 +17,17 @@ const Page = () => {
 
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: ([data]) => {
+      console.log(data);
       const configId = data.serverData.configId;
-      console.log()
       startTransition(() => {
         router.push(`/configure/design?id=${configId}`);
       });
     },
     onUploadProgress(p) {
-      console.log(p);
       setUploadProgress(p);
+    },
+    onUploadError: (err) => {
+      console.log(err);
     },
   });
 
@@ -42,9 +44,13 @@ const Page = () => {
   };
 
   const onDropAccepted = (acceptedFiles: File[]) => {
-    startUpload(acceptedFiles, { configId: undefined });
+    try {
+      startUpload(acceptedFiles, { configId: undefined });
 
-    setIsDragOver(false);
+      setIsDragOver(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [isPending, startTransition] = useTransition();

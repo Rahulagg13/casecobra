@@ -27,6 +27,7 @@ const NavBar = async () => {
                 </Link>
                 {isAdmin ? (
                   <Link
+                    prefetch={false}
                     href="/dashboard"
                     className={buttonVariants({ variant: "ghost", size: "sm" })}
                   >
@@ -34,6 +35,7 @@ const NavBar = async () => {
                   </Link>
                 ) : null}
                 <Link
+                  prefetch={false}
                   href="/configure/upload"
                   className={buttonVariants({
                     className: "hidden sm:flex items-center gap-1",
@@ -47,6 +49,7 @@ const NavBar = async () => {
             ) : (
               <>
                 <Link
+                  prefetch={false}
                   href="/api/auth/register"
                   className={buttonVariants({ variant: "ghost", size: "sm" })}
                 >
@@ -54,6 +57,7 @@ const NavBar = async () => {
                 </Link>
 
                 <Link
+                  prefetch={false}
                   href="/api/auth/login"
                   className={buttonVariants({ variant: "ghost", size: "sm" })}
                 >
@@ -61,6 +65,7 @@ const NavBar = async () => {
                 </Link>
                 <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Link
+                  prefetch={false}
                   href="/configure/upload"
                   className={buttonVariants({
                     className: "hidden sm:flex items-center gap-1",
