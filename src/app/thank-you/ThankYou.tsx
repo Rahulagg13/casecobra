@@ -1,34 +1,13 @@
-/* eslint-disable react/no-unescaped-entities */
-"use client";
-
 import { useQuery } from "@tanstack/react-query";
 import { getPaymentStatus } from "./action";
 import { useSearchParams } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import PhonePreview from "@/components/PhonePreview";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
-interface ThankYouProps {}
-
-const ThankYou = ({}: ThankYouProps) => {
+const ThankYou = () => {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("orderId") || "";
-  const router = useRouter();
-
-  useEffect(() => {
-    const handlePopState = () => {
-      router.push("/configure/upload");
-      router.refresh();
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [router]);
 
   const { data } = useQuery({
     queryKey: ["get-payment-status"],
